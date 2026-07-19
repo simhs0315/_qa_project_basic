@@ -13,21 +13,25 @@ driver = webdriver.Chrome()
 driver.get("https://www.saucedemo.com/") 
 
 #2_1. 성공 케이스의 계정 테스트
-#login(driver, "standard_user", "secret_sauce")
+login(driver, "standard_user", "secret_sauce")
 #2_2. 실패 로그인 계정으로 테스트
-login(driver, "wrong_user", "wrong_password")
+#login(driver, "wrong_user", "wrong_password")
 
 current_url = driver.current_url
 print(current_url)
 
 #3. 화면에 뜨는 에러 코드의 id값을 가져오려 했으나 id값이 없어서 By.CSS_SELECTOR 사용 후에 data-test='error'값을가져옴
-error_message = driver.find_element(By.CSS_SELECTOR, "[data-test='error']")
-print(error_message.text)
+# error_message = driver.find_element(By.CSS_SELECTOR, "[data-test='error']")
+# print(error_message.text)
 
-#4. 아래 명령어가 나와서 true일때만 다름으로 넘어가라
-assert "Username and password do not match" in error_message.text
+# #4. 아래 명령어가 나와서 true일때만 다름으로 넘어가라
+# assert "Username and password do not match" in error_message.text
 
-#assert "inventory" in current_url
+assert "inventory" in current_url
+
+add_to_cart = driver.find_element(By.ID,"add-to-cart-sauce-labs-backpack")
+
+print(add_to_cart)
 
 input("Enter를 누르면 브라우저를 종료합니다.")
 
