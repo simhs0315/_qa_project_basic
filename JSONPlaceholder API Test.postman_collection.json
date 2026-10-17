@@ -1,0 +1,204 @@
+{
+  "info": {
+    "_postman_id": "4dd6c7dc-673b-45d1-a3b0-7714d988b7ce",
+    "name": "JSONPlaceholder API Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "37159023"
+  },
+  "item": [
+    {
+      "name": "GET - User Not Found (Negative)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is error 404 but pass\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\n//response body 객체가 정말 빈 객체인지 검증\r\npm.test(\"Error response body is empty?\", function() {\r\n    const body = pm.response.json();\r\n    pm.expect(Object.keys(body).length).to.eql(0);\r\n});\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"simi\",\r\n    \"username\": \"simi123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/11",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "11"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Create User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"response's body name is simi?\",function() {\r\n    const body = pm.response.json();\r\n    pm.expect(body.name).to.eql(\"simi\");\r\n});\r\n\r\n//requestBody.name → 내가 보낸 값 → \"simi\"\r\n//responseBody.name → 서버가 응답한 값 → \"simi\"\r\npm.test(\"responseBody's name == requestBody's name?\", function () {\r\n    const responseBody = pm.response.json();\r\n    const requestBody = JSON.parse(pm.request.body.raw);\r\n    pm.expect(responseBody.name).to.equal(requestBody.name)\r\n\r\n});\r\n\r\n//requestBody와 responseBody 동일한지 username 검증\r\npm.test(\"responseBody's username == requestBody's username?\", function () {\r\n    const responseBody = pm.response.json();\r\n    const requestBody = JSON.parse(pm.request.body.raw);\r\n    pm.expect(responseBody.username).to.equal(requestBody.username)\r\n\r\n});\r\n\r\n//requestBody와 responseBody 동일한지 email 검증\r\npm.test(\"responseBody's email == requestBody's email?\", function () {\r\n    const responseBody = pm.response.json();\r\n    const requestBody = JSON.parse(pm.request.body.raw);\r\n    pm.expect(responseBody.email).to.equal(requestBody.email)\r\n\r\n});\r\n\r\n\r\n//requestBody와 responseBody 동일한지 id 검증할 차례지만 내가 request 할때는 id 값을 보내주지 않았다. 그렇기 때문에 서버가 보내준 response값에 id가 존재하는지 확인해보자\r\npm.test(\"response body has id\", function(){\r\n    const body = pm.response.json();\r\n    pm.expect(body).to.have.property(\"id\");\r\n}\r\n);\r\n\r\n//단 존재하는지만 확인한다면 서버가 이상하게 id값을 string으로 줘버려도 pass라고 나오겠지?그렇기 때문에 타입까지 검증해보자\r\npm.test(\"response body.id type is number?\", function(){\r\n    const body = pm.response.json();\r\n    pm.expect(body.id).to.be.a(\"number\")\r\n});\r\n\r\n//서버가 갑자기 resuqest를 배열로 내려줄수도 있으니 배열인지 아닌지도 확인해보자 Array.isArray(body) --> body가 배열이면 : true, body가 배열이 아니면 : false 반환\r\npm.test(\"response body is not array?\", function () {\r\n    const body = pm.response.json();\r\n    pm.expect(Array.isArray(body)).to.eql(false);\r\n});\r\n\r\n\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \r\n\r\n    \"name\" : \"simi\",\r\n    \"username\" : \"simi123\",\r\n    \"email\" : \"simi123@test.com\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT - Update User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\" : \"simi\",\r\n    \"username\" : \"simi123\",\r\n    \"email\" : \"simi123@test.com\"\r\n\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - User List",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "//첫번째 사용자의 id가 1인지 확인해보자\r\npm.test(\"first user's id is 1\", function(){\r\n    const body = pm.response.json();\r\n    pm.expect(body[0].id).to.eql(1);\r\n}\r\n);\r\n\r\n//두 번째 사용자의 username이 \"Antonette\"인지 검증\r\npm.test(\"second user's username is Antonette\", function() {\r\n    const body = pm.response.json();\r\n    pm.expect(body[1].username).to.eql(\"Antonette\");\r\n}\r\n);\r\n\r\n//배열에서 몇 개가 반환됐는지 -> 사용자 객체가 10개\r\npm.test(\"user's length is 10\", function() {\r\n    const body = pm.response.json();\r\n    pm.expect(body.length).to.eql(10);\r\n}\r\n);\r\n\r\n//id라는 필드 자체가 존재하는가?\r\npm.test(\"first user has id\", function() {\r\n    const body = pm.response.json();\r\n    pm.expect(body[0]).to.have.property(\"id\");\r\n}\r\n);\r\n\r\n//10명 모두에게 id라는 필드 자체가 존재하는가?\r\npm.test(\"all user has id\", function() {\r\n    const body = pm.response.json();\r\n\r\n    for(let i=0; i<body.length; i++) {\r\n        pm.expect(body[i]).to.have.property(\"id\");\r\n    }\r\n}\r\n);\r\n\r\n//첫번째 사용자의 id가 number 인지 확인\r\npm.test(\"first user's id is number\", function() {\r\n    const body = pm.response.json();\r\n    pm.expect(body[0].id).to.be.a(\"number\");\r\n}\r\n);\r\n\r\n//첫번째 사용자의 name이 String 인지 확인\r\npm.test(\"first user's name is String\", function() {\r\n    const body = pm.response.json();\r\n    pm.expect(body[0].name).to.be.a(\"String\");\r\n}\r\n);\r\n\r\n\r\n//응답시간이 1000ms 미만인지 확인해보자\r\n// 요구사항 : API 응답시간은 1000ms 미만이어야 한다.\r\npm.test(\"response time is under 1000ms\", function() {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n\r\n//Headers에서 Content-Type 값 검증증\r\npm.test(\"Content-Type is application/json; charset=utf-8\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\"))\r\n        .to.eql(\"application/json; charset=utf-8\");\r\n});\r\n\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Single User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "//정상결과인 200이 나오는지 확인해보자\r\npm.test(\"Status code is 200\", function() {\r\n    pm.response.to.have.status(200);\r\n}\r\n);\r\n\r\n\r\npm.test(\"id is 1\", function(){\r\n    const body = pm.response.json();\r\n    pm.expect(body.id).to.eql(1);\r\n}\r\n);\r\n\r\npm.test(\"username is Bret\", function(){\r\n    const body = pm.response.json();\r\n    pm.expect(body.username).to.eql(\"Bret\");\r\n}\r\n);\r\n\r\npm.test(\"address's city is Gwenborough\", function(){\r\n    const body = pm.response.json();\r\n    pm.expect(body.address.city).to.eql(\"Gwenborough\");\r\n}\r\n);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
