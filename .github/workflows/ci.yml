@@ -1,0 +1,21 @@
+name: QA CI
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: First CI Test
+        run: echo "GitHub Actions is running"
+    
+
+
+# name: QA CI	GitHub Actions에 표시할 Workflow 이름
+# on: push	GitHub 저장소에 Push하면 자동 실행
+# jobs:	실행할 작업들의 묶음
+# test:	Job의 식별자. 원하는 이름으로 지정 가능
+# runs-on: ubuntu-latest	Ubuntu 환경의 Runner에서 실행
+# steps:	Job 내부에서 실행할 단계들
+# - name:	Step에 표시할 이름
+# run:	Runner에서 실행할 명령어
