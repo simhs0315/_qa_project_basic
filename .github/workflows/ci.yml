@@ -25,3 +25,17 @@ jobs:
       # 4. Selenium 장바구니 테스트 실행
       - name: Run Web UI Test
         run: python -m pytest pytest_pom_tests/test_pytest_cart_pom.py -v
+
+      # 5. Node.js 실행 환경 준비
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # 6. Newman 설치
+      - name: Install Newman
+        run: npm install -g newman
+
+      # 7. Postman Collection 실행
+      - name: Run API Test
+        run: newman run "api_tests/JSONPlaceholder API Test.postman_collection.json"
